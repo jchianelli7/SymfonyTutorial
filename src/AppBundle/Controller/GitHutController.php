@@ -9,26 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 class GitHutController extends Controller
 {
     /**
-     * @Route("/", name="githut")
+     * @Route("/{username}", name="githut", defaults={ "username" : "jchianelli7" })
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $username)
     {
-        // replace this example code with whatever you need
         return $this->render('githut/index.html.twig', [
-            'avatar_url' => 'https://avatars0.githubusercontent.com/u/7884719?v=4',
-            'name' => 'Josh Chianelli',
-            'login' => 'jchianelli7',
-            'details' => [
-                'company' => 'Josh',
-                'location' => 'Milwaukee, WI',
-                'joined_on' => 'Joined on 13th May 2018',
-            ],
-            'blog' => 'http://google.com',
-            'social_data' => [
-                'Public Repos' => 7,
-                'Followers' => 1123,
-                'Following' => 1132,
-            ],
+            'username' => $username,
             'repo_count' => 100,
             'most_stars' => 99,
             'repos' => [
@@ -54,27 +40,15 @@ class GitHutController extends Controller
         ]);
     }
 
-//    /**
-//     * @Route("/profile",name="profile")
-//     */
-//    public function profileAction(Request $request)
-//    {
-//        return $this->render('githut/profile.html.twig',[
-//            'avatar_url' => 'https://avatars0.githubusercontent.com/u/7884719?v=4',
-//            'name'       => 'Josh Chianelli',
-//            'login'      => 'jchianelli7',
-//            'details'    => [
-//                'company' => 'Josh',
-//                'location' => 'Milwaukee, WI',
-//                'joined_on' => 'Joined on 13th May 2018',
-//            ],
-//            'blog' => 'http://google.com',
-//            'social_data' => [
-//                'Public Repos' => 7,
-//                'Followers' => 1123,
-//                'Following' => 1132,
-//            ],
-//         ]);
-//
-//    }
+
+    /**
+     * @Route("/profile/{username}",name="profile")
+     */
+    public function profileAction(Request $request, $username)
+    {
+        $profileData = $this->get('github_api')->getProfile($username);
+
+        return $this->render('githut/profile.html.twig', $profileData);
+
+    }
 }

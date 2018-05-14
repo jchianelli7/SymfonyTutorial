@@ -33,3 +33,6 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    github_api:
+      class: AppBundle\Service\GitHubApi
+      public: true
